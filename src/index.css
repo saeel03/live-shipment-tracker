@@ -1,0 +1,146 @@
+/* src/index.css */
+@import "leaflet/dist/leaflet.css";
+
+/* Global & Reset */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fcfcfc;
+}
+
+/* Map Container & Leaflet Overrides */
+.map-container {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.leaflet-container {
+  overflow: visible !important; /* Allows tooltips to overflow container */
+}
+
+.leaflet-pane.leaflet-tooltip-pane {
+  z-index: 9999 !important; /* Forces tooltips to top layer */
+}
+
+.map-container canvas,
+.map-container .leaflet-pane {
+  border-radius: 12px;
+}
+
+path.leaflet-interactive {
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+path.leaflet-interactive:hover {
+  fill-opacity: 0.8;
+}
+
+/* Custom Tooltip Styling */
+.leaflet-tooltip.custom-tooltip {
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  opacity: 1 !important;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Hide default Leaflet tooltip arrow */
+.leaflet-tooltip-top:before,
+.leaflet-tooltip-bottom:before,
+.leaflet-tooltip-left:before,
+.leaflet-tooltip-right:before {
+  display: none;
+}
+
+.tooltip-content {
+  padding: 20px;
+  min-width: 220px;
+  text-align: center;
+  position: relative;
+  font-family: inherit;
+}
+
+.tooltip-flag {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.tooltip-company {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.tooltip-id {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.tooltip-route {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4b5563;
+  background-color: #f3f4f6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Origin Marker (Purple) */
+.marker-pin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #8a2be2;
+  box-shadow: 0 0 0 rgba(138, 43, 226, 0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(138, 43, 226, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(138, 43, 226, 0);
+  }
+}
+
+/* Destination Marker (Hot Pink) */
+.marker-pin-destination {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ec4899;
+  box-shadow: 0 0 0 rgba(236, 72, 153, 0.4);
+  animation: pulse-dest 2s infinite;
+}
+
+@keyframes pulse-dest {
+  0% {
+    box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(236, 72, 153, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(236, 72, 153, 0);
+  }
+}
