@@ -18,9 +18,9 @@ body {
   background-color: #ffffff;
 }
 
-.leaflet-container {
-  overflow: visible !important; /* Allows tooltips to overflow container */
-}
+/* .leaflet-container {
+  overflow: visible !important; 
+} */
 
 .leaflet-pane.leaflet-tooltip-pane {
   z-index: 9999 !important; /* Forces tooltips to top layer */
