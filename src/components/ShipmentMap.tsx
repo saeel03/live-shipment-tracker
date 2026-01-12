@@ -20,29 +20,13 @@ const SingleShipment = ({ data }: { data: FlightData }) => {
   const originPos = points[0];
   const destPos = points[points.length - 1];
 
-  // Determine tooltip placement based on route direction to avoid overlapping the line
-  const dLat = destPos[0] - originPos[0];
-  const dLng = destPos[1] - originPos[1];
-  const isVertical = Math.abs(dLat) > Math.abs(dLng);
-
-  let direction: "top" | "bottom" | "left" | "right";
-  let offset: [number, number];
-
-  if (isVertical) {
-    direction = dLat > 0 ? "bottom" : "top";
-    offset = dLat > 0 ? [0, 10] : [0, -10];
-  } else {
-    direction = dLng > 0 ? "left" : "right";
-    offset = dLng > 0 ? [-10, 0] : [10, 0];
-  }
-
   return (
     <>
       {/* Origin Marker */}
       <Marker position={originPos} icon={createCustomIcon("origin")}>
         <Tooltip
-          direction={direction}
-          offset={offset}
+          direction="top"
+          offset={[0, -20]}
           opacity={1}
           className="custom-tooltip"
           permanent={false}
