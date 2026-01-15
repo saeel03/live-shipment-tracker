@@ -1,67 +1,206 @@
 // src/components/ShipmentMap.tsx
-import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Link } from "react-router-dom";
+import { Popover } from "antd";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { shipments } from "../data";
 import type { FlightData } from "../data";
 import AnimatedRoute from "./AnimatedRoute";
 import { createCustomIcon, createPlaneIcon, getPointsFromWaypoints } from "../utils/mapUtils";
 
+const PlanePopoverOverlay = ({
+  latitude,
+  longitude,
+  open,
+  onOpenChange,
+  content,
+}: {
+  latitude: number;
+  longitude: number;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  content: React.ReactNode;
+}) => {
+  const map = useMap();
+  const [containerPoint, setContainerPoint] = useState<L.Point | null>(null);
+
+  useEffect(() => {
+    let raf = 0;
+
+    const update = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        setContainerPoint(map.latLngToContainerPoint([latitude, longitude]));
+      });
+    };
+
+    update();
+    map.on("move", update);
+    map.on("zoom", update);
+    map.on("resize", update);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      map.off("move", update);
+      map.off("zoom", update);
+      map.off("resize", update);
+    };
+  }, [map, latitude, longitude]);
+
+  const mapContainer = map.getContainer();
+  if (!containerPoint || !mapContainer) return null;
+
+  return createPortal(
+    <div
+      style={{
+        position: "absolute",
+        left: containerPoint.x,
+        top: containerPoint.y,
+        transform: "translate(-50%, -100%)",
+        zIndex: 10000,
+        pointerEvents: "none",
+      }}
+    >
+      <Popover
+        open={open}
+        onOpenChange={onOpenChange}
+        trigger={[]}
+        placement="top"
+        content={content}
+        overlayClassName="shipment-popover"
+        getPopupContainer={() => mapContainer}
+      >
+        <div
+          style={{
+            width: 24,
+            height: 24,
+            background: "transparent",
+            pointerEvents: "auto",
+          }}
+          aria-hidden="true"
+        />
+      </Popover>
+    </div>,
+    mapContainer,
+  );
+};
+
+const ShipmentPopoverContent = ({ data }: { data: FlightData }) => (
+  <div className="tooltip-content">
+    {data.originCountryCode && (
+      <img
+        src={`https://flagcdn.com/w40/${data.originCountryCode.toLowerCase()}.png`}
+        alt={`${data.originCountryCode} flag`}
+        className="tooltip-flag"
+        style={{ display: "inline-block" }}
+      />
+    )}
+    <div className="tooltip-company">{data.company || data.ident}</div>
+    <Link 
+      to={`/flight/${data.shipmentId || data.fa_flight_id}`}
+      className="tooltip-id-link"
+    >
+      {data.shipmentId || data.fa_flight_id}
+    </Link>
+    <div className="tooltip-route">
+      {data.origin.code} → {data.destination.code}
+    </div>
+  </div>
+);
+
 /**
  * Component to render a single shipment's route, markers, and plane.
  */
+
+//here input is data of one flight 
 const SingleShipment = ({ data }: { data: FlightData }) => {
-  // Convert flat waypoints to [lat, lng] tuples
+  // Convert raw object waypoint object into an array
   const points = getPointsFromWaypoints(data.waypoints);
 
   // Guard clause: Need at least 2 points to form a route
   if (points.length < 2) return null;
 
-  const originPos = points[0];
+  const originPos = points[0]; 
   const destPos = points[points.length - 1];
+
+  const [isPlanePopoverOpen, setIsPlanePopoverOpen] = useState(false);
+  const closeTimerRef = useRef<number | null>(null);
+
+  const clearCloseTimer = () => {
+    if (closeTimerRef.current !== null) {
+      window.clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
+
+  const scheduleClose = () => {
+    clearCloseTimer();
+    // Small delay so moving from marker -> card doesn't close it.
+    closeTimerRef.current = window.setTimeout(() => {
+      setIsPlanePopoverOpen(false);
+      closeTimerRef.current = null;
+    }, 120);
+  };
+
+  const planeEventHandlers = useMemo(
+    () => ({
+      mouseover: () => {
+        clearCloseTimer();
+        setIsPlanePopoverOpen(true);
+      },
+      mouseout: () => scheduleClose(),
+      click: () => {
+        clearCloseTimer();
+        setIsPlanePopoverOpen((prev) => !prev);
+      },
+    }),
+    [],
+  );
+
+  useEffect(() => {
+    return () => clearCloseTimer();
+  }, []);
 
   return (
     <>
       {/* Origin Marker */}
-      <Marker position={originPos} icon={createCustomIcon("origin")}>
-        <Tooltip
-          direction="top"
-          offset={[0, -20]}
-          opacity={1}
-          className="custom-tooltip"
-          permanent={false}
-        >
-          <div className="tooltip-content">
-             {/* Country Flag */}
-            {data.originCountryCode && (
-              <img
-                src={`https://flagcdn.com/w40/${data.originCountryCode.toLowerCase()}.png`}
-                alt={`${data.originCountryCode} flag`}
-                className="tooltip-flag"
-                style={{ display: "inline-block" }}
-              />
-            )}
-            <div className="tooltip-company">{data.company || data.ident}</div>
-            <div className="tooltip-id">{data.shipmentId || data.fa_flight_id}</div>
-            <div className="tooltip-route">
-              {data.origin.code} → {data.destination.code}
-            </div>
-          </div>
-        </Tooltip>
-      </Marker>
+      <Marker position={originPos} icon={createCustomIcon("origin")} />
 
-      {/* Destination Marker */}
+      
       <Marker position={destPos} icon={createCustomIcon("origin")} />
 
-      {/* Plane Icon (Current Position) */}
+      
       <Marker
         position={[
           data.last_position.latitude,
           data.last_position.longitude,
         ]}
+        //plane rotates to match its heading
         icon={createPlaneIcon(data.last_position.heading)}
-        interactive={false}
+        eventHandlers={planeEventHandlers}
         zIndexOffset={100}
+      />
+
+      <PlanePopoverOverlay
+        latitude={data.last_position.latitude}
+        longitude={data.last_position.longitude}
+        open={isPlanePopoverOpen}
+        onOpenChange={setIsPlanePopoverOpen}
+        content={
+          <div
+            onMouseEnter={clearCloseTimer}
+            onMouseLeave={scheduleClose}
+            onPointerDown={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            onDoubleClick={(e) => e.stopPropagation()}
+            onWheel={(e) => e.stopPropagation()}
+          >
+            <ShipmentPopoverContent data={data} />
+          </div>
+        }
       />
 
       {/* Dotted Flight Path */}

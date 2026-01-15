@@ -1,0 +1,214 @@
+.flight-details-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.flight-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+}
+
+.flight-header {
+  margin-bottom: 30px;
+}
+
+.flight-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.flight-awb {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.flight-terminals {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  gap: 40px;
+}
+
+.terminal-info {
+  flex: 1;
+}
+
+.terminal-right {
+  text-align: right;
+}
+
+.terminal-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.airport-name {
+  font-size: 14px;
+  color: #7c3aed;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.airport-code {
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.flight-date {
+  font-size: 13px;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.flight-time {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.time-status {
+  font-size: 14px;
+  color: #7c3aed;
+  font-weight: 500;
+}
+
+.flight-progress {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.progress-cities {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.city-block {
+  text-align: left;
+}
+
+.city-right {
+  text-align: right;
+}
+
+.city-label {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.city-code {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.flight-duration {
+  font-size: 15px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+/* Custom Flight Progress */
+.custom-flight-progress {
+  padding: 20px 0;
+  margin-top: 10px;
+}
+
+.progress-track-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.progress-icon {
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.progress-line-wrapper {
+  flex: 1;
+  height: 2px;
+  position: relative;
+  margin: 0 10px;
+}
+
+.progress-line-background {
+  width: 100%;
+  height: 100%;
+  border-bottom: 2px dashed #c4b5fd;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress-line-active {
+  height: 100%;
+  background-color: #7c3aed;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: width 1s ease-in-out;
+}
+
+.progress-plane {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: left 1s ease-in-out;
+}
+
+.progress-plane svg {
+  filter: drop-shadow(0 2px 4px rgba(124, 58, 237, 0.3));
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flight-card {
+    padding: 24px;
+  }
+
+  .flight-terminals {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .terminal-right {
+    text-align: left;
+  }
+
+  .city-right {
+    text-align: left;
+  }
+
+  .flight-title {
+    font-size: 24px;
+  }
+}

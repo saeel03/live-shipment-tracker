@@ -51,6 +51,49 @@ path.leaflet-interactive:hover {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/* Popup styled as a "popover" (used on plane hover) */
+.leaflet-popup.shipment-popover {
+  z-index: 9999;
+}
+
+.leaflet-popup.shipment-popover .leaflet-popup-content-wrapper {
+  background: #ffffff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 0;
+}
+
+.leaflet-popup.shipment-popover .leaflet-popup-content {
+  margin: 0;
+}
+
+/* Hide Leaflet's default popup "tip" triangle */
+.leaflet-popup.shipment-popover .leaflet-popup-tip-container {
+  display: none;
+}
+
+/* Ant Design Popover (replaces Leaflet Popup on plane hover) */
+.shipment-popover {
+  z-index: 10000;
+  pointer-events: auto;
+}
+
+.shipment-popover .ant-popover-inner {
+  background: #ffffff;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.shipment-popover .ant-popover-inner-content {
+  padding: 0;
+}
+
+.shipment-popover .ant-popover-arrow {
+  display: none;
+}
+
 /* Hide default Leaflet tooltip arrow */
 .leaflet-tooltip-top:before,
 .leaflet-tooltip-bottom:before,
@@ -89,6 +132,21 @@ path.leaflet-interactive:hover {
   font-size: 11px;
   color: #888;
   margin-bottom: 12px;
+}
+
+.tooltip-id-link {
+  display: block;
+  font-size: 11px;
+  color: #7c3aed;
+  margin-bottom: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tooltip-id-link:hover {
+  color: #6d28d9;
+  text-decoration: underline;
 }
 
 .tooltip-route {
