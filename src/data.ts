@@ -274,5 +274,81 @@ export const shipments: FlightData[] = [
     ],
     "ident_prefix": null,
     "aircraft_type": "A359"
+  },
+  {
+    "ident": "SHIP-1001",
+    "ident_icao": "PGM1001",
+    "ident_iata": "PG1001",
+    "fa_flight_id": "SHIP-202512-1001",
+    "company": "Prestige Gold & Mineral DMCC",
+    "shipmentId": "SHIP-202512-1001",
+    "originCountryCode": "gh",
+    "actual_off": "2026-01-15T08:00:00Z",
+    "actual_on": null,
+    "foresight_predictions_available": true,
+    "predicted_out": null,
+    "predicted_off": null,
+    "predicted_on": "2026-01-15T16:10:00Z",
+    "predicted_in": null,
+    "predicted_out_source": null,
+    "predicted_off_source": null,
+    "predicted_on_source": null,
+    "predicted_in_source": null,
+    "origin": {
+      "code": "ACC",
+      "code_icao": "DGAA",
+      "code_iata": "ACC",
+      "code_lid": "ACC",
+      "timezone": "Africa/Accra",
+      "name": "Kotoka Int'l",
+      "city": "Accra",
+      "country": "GHANA",
+      "airport_info_url": "#",
+      "terminal": "Terminal 3",
+      "gate": "GATE A6"
+    },
+    "destination": {
+      "code": "DXB",
+      "code_icao": "OMDB",
+      "code_iata": "DXB",
+      "code_lid": null,
+      "timezone": "Asia/Dubai",
+      "name": "Dubai Int'l",
+      "city": "Dubai",
+      "country": "UNITED ARAB EMIRATES",
+      "airport_info_url": "#",
+      "terminal": "TERMINAL 1"
+    },
+    "waypoints": [
+      5.6051, -0.1657,
+      8.5, 4.0,
+      11.0, 10.0,
+      13.5, 18.0,
+      15.0, 25.0,
+      16.0, 32.0,
+      18.5, 38.0,
+      21.0, 45.0,
+      23.5, 50.0,
+      24.5, 53.0,
+      25.2532, 55.3657
+    ],
+    "first_position_time": "2026-01-15T08:00:00Z",
+    "last_position": {
+      "fa_flight_id": "SHIP-202512-1001-tracking",
+      "altitude": 350,
+      "altitude_change": "-",
+      "groundspeed": 495,
+      "heading": 65,
+      "latitude": 16.0,
+      "longitude": 32.0,
+      "timestamp": "2026-01-15T12:00:00Z",
+      "update_type": "P"
+    },
+    "bounding_box": [
+      5.6051, -0.1657,
+      25.2532, 55.3657
+    ],
+    "ident_prefix": null,
+    "aircraft_type": "B748"
   }
 ];
