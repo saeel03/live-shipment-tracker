@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import "./index.css";
-import ShipmentMap from "./components/ShipmentMap";
-import FlightDetails from "./components/FlightDetails";
+import ShipmentMap from "./components/ShipmentMap/ShipmentMap";
+import FlightDetails from "./components/FlightDetails/FlightDetails";
 
 function App() {
   return (

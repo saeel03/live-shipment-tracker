@@ -212,12 +212,12 @@ export const shipments: FlightData[] = [
     "company": "British Airways Cargo (BA 178)",
     "shipmentId": "742-158-963",
     "originCountryCode": "us",
-    "actual_off": "2026-01-15T06:20:00Z",
+    "actual_off": "2026-01-16T05:00:00Z",
     "actual_on": null,
     "foresight_predictions_available": true,
     "predicted_out": null,
     "predicted_off": null,
-    "predicted_on": "2026-01-15T13:35:00Z",
+    "predicted_on": "2026-01-16T12:00:00Z",
     "predicted_in": null,
     "predicted_out_source": null,
     "predicted_off_source": null,
@@ -256,7 +256,7 @@ export const shipments: FlightData[] = [
       52.0, -15.0,
       51.4700, -0.4543
     ],
-    "first_position_time": "2026-01-15T06:20:00Z",
+    "first_position_time": "2026-01-16T05:00:00Z",
     "last_position": {
       "fa_flight_id": "BA178-202601091830-tracking",
       "altitude": 360,
@@ -350,5 +350,84 @@ export const shipments: FlightData[] = [
     ],
     "ident_prefix": null,
     "aircraft_type": "B748"
+  },
+  {
+    "ident": "LH 8103",
+    "ident_icao": "DLH8103",
+    "ident_iata": "LH8103",
+    "fa_flight_id": "LH8103-202601160900",
+    "company": "Lufthansa Cargo (LH 8103)",
+    "shipmentId": "923-456-712",
+    "originCountryCode": "de",
+    "actual_off": "2026-01-16T04:00:00Z",
+    "actual_on": null,
+    "foresight_predictions_available": true,
+    "predicted_out": null,
+    "predicted_off": null,
+    "predicted_on": "2026-01-16T14:00:00Z",
+    "predicted_in": null,
+    "predicted_out_source": null,
+    "predicted_off_source": null,
+    "predicted_on_source": null,
+    "predicted_in_source": null,
+    "origin": {
+      "code": "FRA",
+      "code_icao": "EDDF",
+      "code_iata": "FRA",
+      "code_lid": null,
+      "timezone": "Europe/Berlin",
+      "name": "Frankfurt Int'l",
+      "city": "Frankfurt",
+      "country": "GERMANY",
+      "airport_info_url": "#",
+      "terminal": "Terminal 2",
+      "gate": "GATE D12"
+    },
+    "destination": {
+      "code": "NRT",
+      "code_icao": "RJAA",
+      "code_iata": "NRT",
+      "code_lid": null,
+      "timezone": "Asia/Tokyo",
+      "name": "Narita Int'l",
+      "city": "Tokyo",
+      "country": "JAPAN",
+      "airport_info_url": "#",
+      "terminal": "TERMINAL 1"
+    },
+    "waypoints": [
+      50.0379, 8.5622,
+      52.0, 15.0,
+      54.0, 25.0,
+      56.0, 40.0,
+      57.0, 55.0,
+      56.0, 70.0,
+      54.0, 85.0,
+      52.0, 100.0,
+      48.0, 115.0,
+      42.0, 130.0,
+      35.7647, 140.3864
+    ],
+    "first_position_time": "2026-01-16T04:00:00Z",
+    "last_position": {
+      "fa_flight_id": "LH8103-202601160900-tracking",
+      "altitude": 390,
+      "altitude_change": "-",
+      "groundspeed": 525,
+      "heading": 75,
+      "latitude": 54.0,
+      "longitude": 25.0,
+      "timestamp": "2026-01-16T06:30:00Z",
+      "update_type": "P"
+    },
+    "bounding_box": [
+      35.7647, 8.5622,
+      57.0, 140.3864
+    ],
+    "ident_prefix": "LH",
+    "aircraft_type": "B77F"
   }
+
+
+
 ];
