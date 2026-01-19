@@ -1,0 +1,146 @@
+.flightDetailsContainer {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.flightCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+}
+
+.flightHeader {
+  margin-bottom: 30px;
+}
+
+.flightTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.flightAwb {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.flightTerminals {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  gap: 40px;
+}
+
+.terminalInfo {
+  flex: 1;
+}
+
+.terminalRight {
+  text-align: right;
+}
+
+.terminalLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.airportName {
+  font-size: 14px;
+  color: #7c3aed;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.airportCode {
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.flightDate {
+  font-size: 13px;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.flightTime {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.timeStatus {
+  font-size: 14px;
+  color: #7c3aed;
+  font-weight: 500;
+}
+
+.flightProgress {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.progressCities {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cityBlock {
+  text-align: left;
+}
+
+.cityRight {
+  text-align: right;
+}
+
+.cityLabel {
+  font-size: 11px;
+  color: #6b7280;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.cityCode {
+  font-size: 24px;
+  font-weight: 700;
+  color: #7c3aed;
+}
+
+.flightDuration {
+  font-size: 15px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .flightCard {
+    padding: 24px;
+  }
+
+  .flightTerminals {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .terminalRight {
+    text-align: left;
+  }
+
+  .cityRight {
+    text-align: left;
+  }
+
+  .flightTitle {
+    font-size: 24px;
+  }
+}

@@ -1,0 +1,103 @@
+.progressContainer {
+  padding: 20px 0;
+  margin-top: 10px;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.takeoffIcon,
+.landingIcon {
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.progressWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.antProgress {
+  width: 100%;
+  
+  :global {
+    // Override Ant Design Progress styles to make it look like a line
+    .ant-progress-inner {
+      background-color: transparent !important;
+    }
+
+    .ant-progress-bg {
+      height: 2px !important;
+      background-color: #7c3aed !important;
+      transition: width 1s ease-in-out !important;
+    }
+
+    .ant-progress-rail {
+      height: 2px !important;
+      background-color: transparent !important;
+      background-image: repeating-linear-gradient(
+        to right,
+        #9ca3af 0,
+        #9ca3af 3px,
+        transparent 3px,
+        transparent 8px
+      ) !important;
+      background-position: 0 100% !important;
+      background-size: 8px 2px !important;
+      background-repeat: repeat-x !important;
+      border: none !important;
+    }
+
+    .ant-progress-outer {
+      position: relative;
+    }
+
+    .ant-progress-line {
+      position: relative;
+    }
+
+    // Create dotted background trail
+    .ant-progress-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-bottom: 2px dotted #c4b5fd;
+    }
+  }
+}
+
+.planeIcon {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: left 1s ease-in-out;
+  pointer-events: none;
+
+  svg {
+    filter: drop-shadow(0 2px 4px rgba(124, 58, 237, 0.3));
+  }
+}
