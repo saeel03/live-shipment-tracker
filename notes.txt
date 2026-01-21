@@ -1,0 +1,20 @@
+    const update = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        setContainerPoint(map.latLngToContainerPoint([latitude, longitude]));
+      });
+    };
+
+    update();
+    map.on("move", update);
+    map.on("zoom", update);
+    map.on("resize", update);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      map.off("move", update);
+      map.off("zoom", update);
+      map.off("resize", update);
+    };
+    this is jsut a function called;
+    when map moves, zoom , resizes, component mounts

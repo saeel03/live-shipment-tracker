@@ -1,13 +1,14 @@
 // src/components/ShipmentMap/ShipmentMap.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link } from "react-router-dom";
 import { Popover } from "antd";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { shipments } from "../../data";
 import type { FlightData } from "../../data";
 import AnimatedRoute from "../AnimatedRoute/AnimatedRoute";
+import FlightDetailsDrawer from "../FlightDetailsDrawer/FlightDetailsDrawer";
+import ShipmentPopoverContent from "./ShipmentPopoverContent/ShipmentPopoverContent";
 import { createCustomIcon, createPlaneIcon, getPointsFromWaypoints } from "../../utils/mapUtils";
 import styles from './ShipmentMap.module.scss';
 
@@ -24,12 +25,17 @@ const PlanePopoverOverlay = ({
   onOpenChange: (open: boolean) => void;
   content: React.ReactNode;
 }) => {
-  const map = useMap();
-  const [containerPoint, setContainerPoint] = useState<L.Point | null>(null);
+  const map = useMap(); // map obj
+  const [containerPoint, setContainerPoint] = useState<L.Point | null>(null); //either leaflet Point or null
+//L.Point = {x: number,y: number}
 
+
+//It keeps the popover stuck to the plane even when the map moves, zooms, or resizes.
   useEffect(() => {
     let raf = 0;
 
+    //Converts lat/lng → screen pixels
+    // this function 
     const update = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
@@ -45,7 +51,7 @@ const PlanePopoverOverlay = ({
     return () => {
       cancelAnimationFrame(raf);
       map.off("move", update);
-      map.off("zoom", update);
+      map.off("zoom", update); 
       map.off("resize", update);
     };
   }, [map, latitude, longitude]);
@@ -88,48 +94,31 @@ const PlanePopoverOverlay = ({
   );
 };
 
-const ShipmentPopoverContent = ({ data }: { data: FlightData }) => (
-  <div className="tooltip-content">
-    {data.originCountryCode && (
-      <img
-        src={`https://flagcdn.com/w40/${data.originCountryCode.toLowerCase()}.png`}
-        alt={`${data.originCountryCode} flag`}
-        className="tooltip-flag"
-        style={{ display: "inline-block" }}
-      />
-    )}
-    <div className="tooltip-company">{data.company || data.ident}</div>
-    <Link 
-      to={`/flight/${data.shipmentId || data.fa_flight_id}`}
-      className="tooltip-id-link"
-    >
-      {data.shipmentId || data.fa_flight_id}
-    </Link>
-    <div className="tooltip-route">
-      {data.origin.code} → {data.destination.code}
-    </div>
-  </div>
-);
-
-
-
 //here input is data of one flight 
-const SingleShipment = ({ data }: { data: FlightData }) => {
+const SingleShipment = ({ 
+  data, 
+  onOriginClick 
+}: { 
+  data: FlightData;
+  onOriginClick: (data: FlightData) => void;
+}) => {
   // Convert raw object waypoint object into an array
   const points = getPointsFromWaypoints(data.waypoints);
   
   // Guard clause: Need at least 2 points to form a route
   if (points.length < 2) return null;
 
-  return <SingleShipmentContent data={data} points={points} />;
+  return <SingleShipmentContent data={data} points={points} onOriginClick={onOriginClick} />;
 };
 
 const SingleShipmentContent = ({ 
   data, 
-  points 
+  points,
+  onOriginClick
 }: { 
   data: FlightData; 
   points: [number, number][];
+  onOriginClick: (data: FlightData) => void;
 }) => {
   const [isPlanePopoverOpen, setIsPlanePopoverOpen] = useState(false);
   const closeTimerRef = useRef<number | null>(null);
@@ -169,6 +158,15 @@ const SingleShipmentContent = ({
     [],
   );
 
+  const originEventHandlers = useMemo(
+    () => ({
+      click: () => {
+        onOriginClick(data);
+      },
+    }),
+    [data, onOriginClick],
+  );
+
   useEffect(() => {
     return () => clearCloseTimer();
   }, []);
@@ -176,7 +174,11 @@ const SingleShipmentContent = ({
   return (
     <>
       {/* Origin Marker */}
-      <Marker position={originPos} icon={createCustomIcon("origin")} />
+      <Marker 
+        position={originPos} 
+        icon={createCustomIcon("origin")} 
+        eventHandlers={originEventHandlers}
+      />
 
       
       <Marker position={destPos} icon={createCustomIcon("origin")} />
@@ -219,11 +221,20 @@ const SingleShipmentContent = ({
   );
 };
 
-/**
- * Main Map Component
- * Handles the MapContainer, TileLayer, and orchestrates the rendering of all shipments.
- */
+
 const ShipmentMap = () => {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedFlight, setSelectedFlight] = useState<FlightData | null>(null);
+
+  const handleOriginClick = (data: FlightData) => {
+    setSelectedFlight(data);
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
   // Collect all points from all shipments to calculate the initial map view bounds
   const allPoints: [number, number][] = [];
   shipments.forEach((s) => {
@@ -241,15 +252,14 @@ const ShipmentMap = () => {
       const handleResize = () => {
         map.invalidateSize();
         
-        // Calculate min zoom to prevent seeing gray areas (filling the container height)
+        // Calculate min zoom to prevent seeing gray areas 
         const containerHeight = map.getSize().y;
         if (containerHeight > 0) {
             const minZoom = Math.ceil(Math.log2(containerHeight / 256));
             map.setMinZoom(minZoom);
         }
         
-        // Restrict panning significantly beyond the world map
-        // Expanded slightly to allow comfortable viewing of Date Line crossing routes
+        
         map.setMaxBounds([[-90, -220], [90, 280]]); 
         
         if (allPoints.length > 0) {
@@ -277,7 +287,7 @@ const ShipmentMap = () => {
         zoom={2}
         className={styles.mapContainer}
         attributionControl={false}
-        // Viscosity prevents the user from dragging outside the maxBounds
+        
         maxBoundsViscosity={1.0}
       >
         <MapResizer />
@@ -288,9 +298,19 @@ const ShipmentMap = () => {
         />
 
         {shipments.map((shipment) => (
-          <SingleShipment key={shipment.ident} data={shipment} />
+          <SingleShipment 
+            key={shipment.ident} 
+            data={shipment} 
+            onOriginClick={handleOriginClick}
+          />
         ))}
       </MapContainer>
+
+      <FlightDetailsDrawer 
+        open={drawerOpen}
+        onClose={handleDrawerClose}
+        data={selectedFlight}
+      />
     </div>
   );
 };

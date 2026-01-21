@@ -5,6 +5,7 @@ import FlightDetails from "./components/FlightDetails/FlightDetails";
 
 function App() {
   return (
+  
     <Routes>
       <Route path="/" element={
         <div style={{ padding: "20px" }}>

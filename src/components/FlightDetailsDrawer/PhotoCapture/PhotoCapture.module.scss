@@ -1,0 +1,71 @@
+.container {
+  margin-top: 24px;
+}
+
+.heading {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.description {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.addPhotoBox {
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fafafa;
+  transition: all 0.3s;
+
+  &:hover {
+    border-color: #1890ff;
+    background-color: #f0f5ff;
+  }
+}
+
+.cameraIcon {
+  font-size: 24px;
+  color: #999;
+  margin-right: 8px;
+}
+
+.addPhotoText {
+  color: #666;
+  font-size: 14px;
+}
+
+.photoContainer {
+  margin-top: 16px;
+}
+
+.photoImage {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+}
+
+.removeButton {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.modalContent {
+  text-align: center;
+}
+
+.videoElement {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 8px;
+  background-color: #000;
+}
+
+.canvasElement {
+  display: none;
+}
