@@ -1,5 +1,5 @@
 import { Form, Input, Button } from "antd";
-import { useFlightFormStore, type FlightFormData } from "./store/useFlightFormStore";
+import { useFlightFormStore, type FlightFormData } from "../../../../store/useFlightFormStore";
 
 const FlightForm = () => {
   const { setFormData } = useFlightFormStore();

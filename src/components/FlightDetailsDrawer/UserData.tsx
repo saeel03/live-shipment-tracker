@@ -1,4 +1,4 @@
-import { useFlightFormStore } from "./FlightForm/store/useFlightFormStore";
+import { useFlightFormStore } from "../../../store/useFlightFormStore";
 
 export const UserData = () => {
   const data = useFlightFormStore((state) => state.formData);
